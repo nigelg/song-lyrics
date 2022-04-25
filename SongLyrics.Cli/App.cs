@@ -19,8 +19,6 @@ public class App
         var selectedArtist = await SearchAndSelectArtist();
 
         await GetAverageLyricsForArtist(selectedArtist);
-
-        await Task.CompletedTask;
     }
 
     private async Task<Artist> SearchAndSelectArtist()

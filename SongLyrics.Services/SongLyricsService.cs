@@ -33,7 +33,7 @@ namespace SongLyrics.Services
         {
             #region GetArtistReleaseGroups
 
-            _logger.LogInformation("{Environment.NewLine}Getting release-groups (albums) for artist... please wait.");
+            _logger.LogInformation($"{Environment.NewLine}Getting release-groups (albums) for artist... please wait.");
             var releaseGroups = await _musicBrainzApiWrapperService.GetArtistReleaseGroupsAsync(mbId);
 
             if (releaseGroups == null || releaseGroups.Count == 0)
@@ -86,10 +86,9 @@ namespace SongLyrics.Services
         {
             var goodApiCalls = lyrics.Where(x => x.HttpStatusCode == HttpStatusCode.OK);
 
-            var listOfLyrics = goodApiCalls.Select(x => x.Data.Lyrics).ToList();
             //should catch multiple whitespace (e.g. tabs, newlines, etc.
-            var listOfLyricsWithReplacedSpaces = goodApiCalls.Select(x => Regex.Replace(x.Data.Lyrics, @"\s+", " ")).ToList();
-            var listOfWordCounts = listOfLyricsWithReplacedSpaces.Select(x => x.Split(" ").Count()).ToList();
+            var listOfLyricsWithReplacedSpaces = goodApiCalls.Select(x => Regex.Replace(x.Data.Lyrics, @"\s+", " "));
+            var listOfWordCounts = listOfLyricsWithReplacedSpaces.Select(x => x.Split(" ").Count());
 
             return Math.Round(listOfWordCounts.Average());
         }
